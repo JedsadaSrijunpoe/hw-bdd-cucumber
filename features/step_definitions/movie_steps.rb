@@ -18,8 +18,10 @@ end
 Then /I should see "(.*)" before "(.*)"/ do |e1, e2|
   #  ensure that that e1 occurs before e2.
   #  page.body is the entire content of the page as a string.
-  page.should have_content(e1)
-  page.should have_content(e2)
+  steps %Q{
+    Then I should see "#{e1}"
+    And I should see "#{e2}"
+  }
 
   page_body = page.body
   index_e1 = page_body.index(e1)
@@ -36,7 +38,9 @@ When /I (un)?check the following ratings: (.*)/ do |uncheck, rating_list|
   #   iterate over the ratings and reuse the "When I check..." or
   #   "When I uncheck..." steps in lines 89-95 of web_steps.rb
   rating_list.split(",").map(&:strip).each do |rating|
-    uncheck ? uncheck(rating) : check(rating)
+    steps %Q{
+      When I #{uncheck ? "un" : ""}check "#{rating}"
+    }
   end
 end
 
@@ -45,14 +49,21 @@ Then /^I should (not )?see the following movies: (.*)$/ do |no, movie_list|
   # Take a look at web_steps.rb Then /^(?:|I )should see "([^"]*)"$/
   # pending "Fill in this step in movie_steps.rb"
   movie_list.split(",").map(&:strip).each do |movie|
-    page.should no ? have_no_content(movie) : have_content(movie)
+    steps %Q{
+      Then I should #{no ? "not " : ""}see "#{movie}"
+    }
   end
 end
 
 Then /I should see all the movies/ do
   # Make sure that all the movies in the app are visible in the table
+  rows = page.body.scan(/<tr>/).length
+  expect(rows).to eq Movie.count + 1  # plus one for the head of table
+
   Movie.all.each do |movie|
-    page.should have_content(movie.title)
+    steps %Q{
+      Then I should see "#{movie.title}"
+    }
   end
 end
 
