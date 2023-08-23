@@ -24,8 +24,8 @@ Then /I should see "(.*)" before "(.*)"/ do |e1, e2|
   }
 
   page_body = page.body
-  index_e1 = page_body.index(e1)
-  index_e2 = page_body.index(e2)
+  index_e1 = page_body.index("More about #{e1}</a>")
+  index_e2 = page_body.index("More about #{e2}</a>")
   expect(index_e1).to be < index_e2, "\"#{e1}\" is not before \"#{e2}\""
 end
 
