@@ -45,6 +45,11 @@ class MoviesController < ApplicationController
     redirect_to movies_path
   end
 
+  def search_tmdb
+    flash[:notice] = "'#{params[:movie][:title]}' was not found in TMDb."
+    redirect_to movies_path
+  end
+
   def movie_params
     params.require(:movie).permit(:title, :description, :movie_length, :director, :rating, :image, :user_id, :release_date )
   end
