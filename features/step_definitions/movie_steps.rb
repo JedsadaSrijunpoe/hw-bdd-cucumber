@@ -57,8 +57,13 @@ end
 
 Then /I should see all the movies/ do
   # Make sure that all the movies in the app are visible in the table
-  rows = page.body.scan(/<tr>/).length
-  expect(rows).to eq Movie.count + 1  # plus one for the head of table
+
+  within(:xpath, %(//table[@id="movies"]/tbody)) do
+    # In tag <table id="movies"> have tag <tbody>
+    # And in tag <tbody> we want to count all the tag <tr> 
+    # (row of movies) should be equal to number of movies in database
+    expect(page).to have_xpath('.//tr', :count => Movie.count)
+  end
 
   Movie.all.each do |movie|
     steps %Q{
