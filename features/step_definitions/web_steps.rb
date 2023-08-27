@@ -124,11 +124,7 @@ Then /^the "([^"]*)" field(?: within (.*))? should contain "([^"]*)"$/ do |field
   with_scope(parent) do
     field = find_field(field)
     field_value = (field.tag_name == 'textarea') ? field.text : field.value
-    if field_value.respond_to? :should
-      field_value.should =~ /#{value}/
-    else
-      assert_match(/#{value}/, field_value)
-    end
+    expect(field_value).to match(/#{value}/)
   end
 end
 
@@ -136,11 +132,7 @@ Then /^the "([^"]*)" field(?: within (.*))? should not contain "([^"]*)"$/ do |f
   with_scope(parent) do
     field = find_field(field)
     field_value = (field.tag_name == 'textarea') ? field.text : field.value
-    if field_value.respond_to? :should_not
-      field_value.should_not =~ /#{value}/
-    else
-      assert_no_match(/#{value}/, field_value)
-    end
+    expect(field_value).not_to match(/#{value}/)
   end
 end
 
@@ -152,11 +144,7 @@ Then /^the "([^"]*)" field should have the error "([^"]*)"$/ do |field, error_me
   using_formtastic = form_for_input[:class].include?('formtastic')
   error_class = using_formtastic ? 'error' : 'field_with_errors'
 
-  if classes.respond_to? :should
-    classes.should include(error_class)
-  else
-    assert classes.include?(error_class)
-  end
+  expect(classes).to include(error_class)
 
   if page.respond_to?(:should)
     if using_formtastic

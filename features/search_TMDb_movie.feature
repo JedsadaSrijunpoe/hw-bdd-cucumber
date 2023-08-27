@@ -21,4 +21,4 @@ Scenario: Try to add existing movie (happy path)
     And I press "Search TMDb"
     Then I should be on the "Search Results" page
     And I should not see "not found"
-    And I should see "Inception"
+    And the "Title" field should contain "Inception"
