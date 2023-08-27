@@ -24,8 +24,8 @@ Then /I should see "(.*)" before "(.*)"/ do |e1, e2|
   }
 
   page_body = page.body
-  index_e1 = page_body.index("More about #{e1}</a>")
-  index_e2 = page_body.index("More about #{e2}</a>")
+  index_e1 = page_body.index(e1)
+  index_e2 = page_body.index(e2)
   expect(index_e1).to be < index_e2, "\"#{e1}\" is not before \"#{e2}\""
 end
 
@@ -33,24 +33,24 @@ end
 #  "When I uncheck the following ratings: PG, G, R"
 #  "When I check the following ratings: G"
 
-When /I (un)?check the following ratings: (.*)/ do |uncheck, rating_list|
+When /I (un)?check the following ratings: (.*)/ do |un, rating_list|
   # HINT: use String#split to split up the rating_list, then
   #   iterate over the ratings and reuse the "When I check..." or
   #   "When I uncheck..." steps in lines 89-95 of web_steps.rb
   rating_list.split(",").map(&:strip).each do |rating|
     steps %Q{
-      When I #{uncheck ? "un" : ""}check "#{rating}"
+      When I #{un}check "#{rating}"
     }
   end
 end
 
 # Part 2, Step 3
-Then /^I should (not )?see the following movies: (.*)$/ do |no, movie_list|
+Then /^I should (not )?see the following movies:/ do |not_, movie_list|
   # Take a look at web_steps.rb Then /^(?:|I )should see "([^"]*)"$/
   # pending "Fill in this step in movie_steps.rb"
   movie_list.split(",").map(&:strip).each do |movie|
     steps %Q{
-      Then I should #{no ? "not " : ""}see "#{movie}"
+      Then I should #{not_}see "#{movie}"
     }
   end
 end
