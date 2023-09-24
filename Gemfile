@@ -11,6 +11,7 @@ gem 'jquery-rails'
 
 gem 'themoviedb'
 
+gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'dotenv-rails', groups: [:development, :test]
 gem 'omniauth-rails_csrf_protection'
