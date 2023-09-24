@@ -8,7 +8,12 @@ gem 'sass-rails', '~> 5.0.3'
 gem 'uglifier', '>= 2.7.1'
 
 gem 'jquery-rails'
+
 gem 'themoviedb'
+
+gem 'omniauth-facebook'
+gem 'dotenv-rails', groups: [:development, :test]
+gem 'omniauth-rails_csrf_protection'
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
@@ -18,7 +23,6 @@ end
 # for Heroku deployment - as described in Ap. A of ELLS book
 group :development, :test do
   gem 'byebug'
-  gem 'database_cleaner'
   gem 'cucumber-rails', require: false
   gem 'cucumber-rails-training-wheels' # some pre-fabbed step definitions
   gem 'database_cleaner' # to clear Cucumber's test database between runs
