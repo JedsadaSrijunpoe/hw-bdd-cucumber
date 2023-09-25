@@ -10,21 +10,28 @@
   </head>
   <body>
     <%# These classes come from the Bootstrap CSS framework. %>
-    <nav class="navbar navbar-expand-lg bg-primary text-white mb-3">
+    <nav class="navbar navbar-expand-lg bg-primary text-white mb-3 d-flex justify-content-between">
       <h1 class="title">Rotten Potatoes!</h1>
+      
+        <div class="d-flex align-items-center justify-content-center">
+        <% if set_current_user %>
+          
+            <span>Welcome <strong><%= set_current_user.name %></strong>!</span>
+          
+            <%= form_tag(signout_path, method: 'post', data: {turbo: false}) do %>
+              <button type='submit', class='btn btn-danger mx-2'>Logout</button>
+            <% end %>
+          
+        <% else %>
+          <%= form_tag(login_path, method: 'post', data: {turbo: false}) do %>
+            <button type='submit', class='btn btn-success'>Login with Facebook</button>
+          <% end %>
+        <% end %>
+        
+        
+      </div>
     </nav>
-    <div class="container">
-      <% if set_current_user %>
-        Welcome <strong><%= set_current_user.name %></strong>!
-        <%= form_tag(signout_path, method: 'post', data: {turbo: false}) do %>
-          <button type='submit'>Logout</button>
-        <% end %>
-      <% else %>
-        <%= form_tag(login_path, method: 'post', data: {turbo: false}) do %>
-          <button type='submit'>Login with Facebook</button>
-        <% end %>
-      <% end %>
-    </div>
+    
     <div class="container">
       <%# Render "flash" messages in our application. This loads _flash.erb %>
       <%= render 'layouts/flash' %>
