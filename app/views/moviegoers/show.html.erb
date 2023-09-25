@@ -1,17 +1,18 @@
 <!--  app/views/moviegoers/show.html.erb -->
-<h2>Moviegoer <em><%= @moviegoer.name %></em></h2>
+<h2>Moviegoer: <em><%= @moviegoer.name %></em></h2>
 
 <div class="row">
-  <%= link_to 'Edit', edit_moviegoer_path(@moviegoer), class: 'btn btn-primary col-2' %>
-  <%= link_to 'Delete', moviegoer_path(@moviegoer), 'data-method': 'delete', 'data-confirm': 'Are you sure?', class: 'btn btn-danger col-2' %>
   <%= link_to 'Back to movie list', movies_path, class: 'btn btn-primary col-2' %>
 </div>
 
 <h3>Reviews:</h3>
   <% @moviegoer.reviews.each do |review| %>
+    <% movie = Movie.find(review.movie_id) %>
     <hr/>
     <h5>
-      <%= @moviegoer.name %> give <strong><%= Movie.find(review.movie_id).title %></strong> <%= review.potatoes %> potatoes.
+      <%= @moviegoer.name %> give 
+      <%= link_to "#{movie.title}", movie_path(movie) %>
+      <%= review.potatoes %> potatoes.
     </h5>
     <p>
       <%= review.comments %>

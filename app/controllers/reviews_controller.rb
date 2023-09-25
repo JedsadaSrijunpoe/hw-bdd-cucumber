@@ -13,6 +13,10 @@ class ReviewsController < ApplicationController
     end
     public
     def new
+        exist_review = @current_user.reviews.find_by(movie_id: params[:movie_id])
+        if exist_review
+            redirect_to edit_movie_review_path(@movie, exist_review)
+        end
         @review = @movie.reviews.build
     end
     def create
@@ -21,6 +25,19 @@ class ReviewsController < ApplicationController
         # by using the << method on the association.  We could also
         # set it manually with review.moviegoer = @current_user.
         @current_user.reviews << @movie.reviews.build(review_params)
+        redirect_to movie_path(@movie)
+    end
+
+    def edit
+        @movie = Movie.find params[:movie_id]
+        @review = Review.find params[:id]
+    end
+
+    def update
+        @movie = Movie.find params[:movie_id]
+        @review = Review.find params[:id]
+        @review.update_attributes!(review_params)
+        flash[:notice] = "#{@movie.title} review was successfully updated."
         redirect_to movie_path(@movie)
     end
 

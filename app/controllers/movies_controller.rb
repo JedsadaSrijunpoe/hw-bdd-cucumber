@@ -52,21 +52,21 @@ class MoviesController < ApplicationController
   end
 
   def search_tmdb
-    @param_title = params[:movie][:title]
-    @search = Tmdb::Movie.find(@param_title)
+    param_title = params[:movie][:title]
+    search = Tmdb::Movie.find(param_title)
 
-    if @search.empty?
-      flash[:notice] = "'#{@param_title}' was not found in TMDb."
+    if search.empty?
+      flash[:notice] = "'#{param_title}' was not found in TMDb."
       redirect_to movies_path
     else
-      @movie = @search[0]
-      @title = @movie.title
-      @description = @movie.overview
-      @release_date = Date.parse(@movie.release_date)
+      movie = search[0]
+      title = movie.title
+      description = movie.overview
+      release_date = Date.parse(movie.release_date)
       redirect_to new_movie_path(
-        title_value: @title,
-        release_date_value: @release_date,
-        description_value: @description
+        title_value: title,
+        release_date_value: release_date,
+        description_value: description
       )
     end
   end

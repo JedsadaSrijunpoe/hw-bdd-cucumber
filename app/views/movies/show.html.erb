@@ -26,9 +26,10 @@
 
 <h3>Reviews:</h3>
   <% @movie.reviews.each do |review| %>
+    <% moviegoer = Moviegoer.find(review.moviegoer_id) %>
     <hr/>
     <h5>
-      <strong><%= Moviegoer.find(review.moviegoer_id).name %></strong>
+      <%= link_to "#{moviegoer.name}", moviegoer_path(moviegoer) %>
       give this movie <%= review.potatoes %> potatoes.
     </h5>
     <p>
