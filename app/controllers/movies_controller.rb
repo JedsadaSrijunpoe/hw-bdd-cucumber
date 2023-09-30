@@ -1,6 +1,5 @@
-Tmdb::Api.key(ENV['TMDB_API_KEY'])
-
 class MoviesController < ApplicationController
+  Tmdb::Api.key(ENV['TMDB_API_KEY'])
   before_action :force_index_redirect, only: [:index]
 
   def show
