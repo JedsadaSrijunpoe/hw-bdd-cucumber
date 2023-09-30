@@ -21,10 +21,9 @@ class MoviesController < ApplicationController
 
   def new
     # default: render 'new' template
-    @title_value = params[:title_value]
-    @description_value = params[:description_value]
-    @rating_value = params[:rating_value]
-    @release_date_value = params[:release_date_value] || Date.today.strftime()
+    if params[:movie]
+      @movie = Movie.new(movie_params)
+    end
   end
 
   def create
@@ -53,29 +52,32 @@ class MoviesController < ApplicationController
 
   def search_tmdb
     param_title = params[:movie][:title]
-    search = Tmdb::Movie.find(param_title)
+    movies_found = Tmdb::Movie.find(param_title)
 
-    if search.empty?
+    if movies_found.empty?
       flash[:notice] = "'#{param_title}' was not found in TMDb."
       redirect_to movies_path
     else
-      movie = search[0]
-      title = movie.title
-      description = movie.overview
-      release_date = Date.parse(movie.release_date)
-      redirect_to new_movie_path(
-        title_value: title,
-        release_date_value: release_date,
-        description_value: description
-      )
+      redirect_to_new_movie_tmdb(movies_found)
     end
   end
+
+  private
 
   def movie_params
     params.require(:movie).permit(:title, :description, :movie_length, :director, :rating, :image, :user_id, :release_date )
   end
 
-  private
+  def redirect_to_new_movie_tmdb movies_found
+    movie = movies_found[0]
+    redirect_to new_movie_path(
+      movie:{
+        title: movie.title,
+        release_date: movie.release_date,
+        description: movie.overview
+      }
+    )
+  end
 
   def force_index_redirect
     if !params.key?(:ratings) || !params.key?(:sort_by)
