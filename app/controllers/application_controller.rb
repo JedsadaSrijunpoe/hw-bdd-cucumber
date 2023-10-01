@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   def set_current_user
     # we exploit the fact that the below query may return nil
     @current_user ||= Moviegoer.find_by id: session[:user_id]
-    #redirect_to login_path and return unless @current_user
+    redirect_to login_page_path and return unless @current_user
   end
   helper_method :set_current_user
 end

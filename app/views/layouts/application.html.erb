@@ -14,9 +14,9 @@
       <h1 class="title">Rotten Potatoes!</h1>
       
         <div class="d-flex align-items-center justify-content-center">
-        <% if set_current_user %>
+        <% if @current_user %>
           
-            <span>Welcome <strong><%= set_current_user.name %></strong>!</span>
+            <span>Welcome <strong><%= @current_user.name %></strong>!</span>
           
             <%= form_tag(signout_path, method: 'post', data: {turbo: false}) do %>
               <button type='submit', class='btn btn-danger mx-2'>Logout</button>

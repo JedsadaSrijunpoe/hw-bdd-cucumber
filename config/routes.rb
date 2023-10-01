@@ -17,4 +17,5 @@ Rottenpotatoes::Application.routes.draw do
   get  'auth/failure' => 'sessions#failure'
   get  'auth/facebook', :as => 'login'
   post 'logout' => 'sessions#destroy', :as => 'signout'
+  get  'login' => 'moviegoers#login', :as => 'login_page'
 end
